@@ -1,0 +1,30 @@
+<div class="row">
+    Grid height: {{crosswordGridCtrl.height}}
+    <br/> Grid width: {{crosswordGridCtrl.width}}
+    <br/>
+    <span ng-class="{ problem: !crosswordGridCtrl.symmetrical }">Symmetrical: {{crosswordGridCtrl.symmetrical}}</span>
+</div>
+<div class="row">
+    <div class="cw-grid">
+        <div ng-repeat="j in crosswordGridCtrl.griddata" class="row">
+            <div ng-repeat="i in j" class="cw-sq" ng-right-click="crosswordGridCtrl.Flip(i);" ng-class="{ 'cw-sq-closed': !i.open, 'cw-sq-open': i.open }">
+                <span ng-if="i.open" class="cw-sq-letter">
+                    <input type="text" maxlength="1" ng-model="i.letter" onclick="this.select()" ng-change="crosswordGridCtrl.InputLetter()"/>
+                </span>
+                <span class="cw-sq-number">
+                    {{ i.number || "" }}
+                </span>
+            </div>
+        </div>
+    </div>
+    <div class="cw-clues">
+        <div class="cw-clues-section">
+            <div><strong>Across:</strong></div>
+            <div ng-repeat="acrossClue in crosswordGridCtrl.acrossClues"><strong>{{ acrossClue.number + ". " }}</strong>{{ acrossClue.text }}</div>
+        </div>
+        <div class="cw=clues-section">
+            <div><strong>Down:</strong></div>
+            <div ng-repeat="downClue in crosswordGridCtrl.downClues"><strong>{{ downClue.number + ". " }}</strong>{{ downClue.text }}</div>
+        </div>
+    </div>
+</div>

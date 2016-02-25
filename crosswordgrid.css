@@ -1,0 +1,65 @@
+
+.cw-grid {
+    float: left;
+}
+
+.cw-clues {
+    float: left;
+    margin-left: 25px;
+    margin-top: 10px;
+    width: 250px;
+}
+
+.cw-clues-section {
+    margin-bottom: 25px;
+}
+
+.cw-sq {
+    position: relative;
+    width: 40px;
+    height: 40px;
+    float: left;
+    cursor: pointer;
+    border: 1px solid black;
+}
+
+.cw-sq .cw-sq-number {
+    position: absolute;
+    left: 2px;
+    top: 1px;
+    font-size: 12px;
+}
+
+.cw-sq .cw-sq-letter {
+    position: absolute;
+}
+
+.cw-sq .cw-sq-letter input[type="text"] {
+    position: absolute;
+    left: 2px;
+    top: 2px;
+    border: none;
+    outline: none;
+    width: 36px;
+    height: 36px;
+    text-align: center;
+    font-size: 20px;
+}
+
+.cw-sq .cw-sq-letter input:focus {
+    border: none;
+    outline: none;
+}
+
+.cw-sq.cw-sq-open {
+    background-color: white;
+}
+
+.cw-sq.cw-sq-closed {
+    background-color: black;
+}
+
+.problem {
+    color: #BB1111;
+    font-weight: bold;
+}
