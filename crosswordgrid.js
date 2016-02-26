@@ -6,13 +6,13 @@
         this.letter = "";
     }
 
-    var app = angular.module("app.crosswordgrid", []);
+    var app = angular.module("app.crosswordgrid", ["services.dictionary"]);
 
     app.component("crosswordGrid", {
         templateUrl: "crosswordgrid.html",
         replace: true,
         controllerAs: "crosswordGridCtrl",
-        controller: function () {
+        controller: ["DictionaryService", function (DictionaryService) {
             this.width = 15;
             this.height = 15;
             this.symmetrical = true;
@@ -135,7 +135,7 @@
 
                 return this.griddata[y][x].open;
             }
-        }
+        }]
     });
 
 })();
