@@ -16,16 +16,27 @@
             this.width = 15;
             this.height = 15;
             this.symmetrical = true;
-            this.griddata = CreateMatrix(this.height, this.width, new GridSpot());
+            this.autosym = true;
             this.acrossClues = [];
             this.downClues = [];
 
-            this.ChangeSize = function (width, height) {
-                this.width = width;
-                this.height = height;
-
+            this.CreateGrid = function (height, width) {
                 this.griddata = CreateMatrix(this.height, this.width, new GridSpot());
+
+                for (var j = 0; j < this.height; j++) {
+                    for (var i = 0; i < this.width; i++) {
+                        this.griddata[j][i].x = i;
+                        this.griddata[j][i].y = j;
+                    }
+                }
             }
+
+            //             this.ChangeSize = function (width, height) {
+            //                 this.width = width;
+            //                 this.height = height;
+            // 
+            //                 this.griddata = CreateMatrix(this.height, this.width, new GridSpot());
+            //             }
             
             this.InputLetter = function () {
                 this.RecalculateGridNumbers();
@@ -34,12 +45,16 @@
             this.Flip = function (item) {
                 item.open = !item.open;
 
+                if (this.autosym) {
+                    this.griddata[this.height - 1 - item.y][this.width - 1 - item.x].open = item.open;
+                }
+
                 this.RecalculateGridNumbers();
                 this.CheckSymmetry();
             }
 
             this.RecalculateGridNumbers = function () {
-
+ 
                 // Reset clues
                 this.acrossClues.empty();
                 this.downClues.empty();
@@ -66,7 +81,7 @@
                             
                             var wordText = "";
                             var k = 0;
-                                
+
                             if (acrossWord) {
                                 wordText = "";
                                 k = 0;
@@ -135,6 +150,9 @@
 
                 return this.griddata[y][x].open;
             }
+
+
+            this.CreateGrid();
         }]
     });
 

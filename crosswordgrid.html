@@ -1,8 +1,12 @@
 <div class="row">
-    Grid height: {{crosswordGridCtrl.height}}
-    <br/> Grid width: {{crosswordGridCtrl.width}}
+    <label>Grid height: {{crosswordGridCtrl.height}}</label>
+    <label>Grid width: {{crosswordGridCtrl.width}}</label>
     <br/>
-    <span ng-class="{ problem: !crosswordGridCtrl.symmetrical }">Symmetrical: {{crosswordGridCtrl.symmetrical}}</span>
+    <label><span ng-class="{ problem: !crosswordGridCtrl.symmetrical }">Symmetrical: {{crosswordGridCtrl.symmetrical}}</span></label>
+</div>
+<div class="row">
+    <label>Auto-symmterical: </label>
+    <input type="checkbox" ng-model="crosswordGridCtrl.autosym"/>
 </div>
 <div class="row">
     <div class="cw-grid">
