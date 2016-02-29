@@ -61,5 +61,13 @@
 
 .problem {
     color: #BB1111;
+}
+
+.good {
+    color: #119911;
+}
+
+.cw-clue-possibles {
     font-weight: bold;
+    cursor: pointer;
 }

@@ -2,18 +2,18 @@
     <label>Grid height: {{crosswordGridCtrl.height}}</label>
     <label>Grid width: {{crosswordGridCtrl.width}}</label>
     <br/>
-    <label><span ng-class="{ problem: !crosswordGridCtrl.symmetrical }">Symmetrical: {{crosswordGridCtrl.symmetrical}}</span></label>
+    <label>Symmetrical: <span ng-class="{ problem: !crosswordGridCtrl.symmetrical, good: crosswordGridCtrl.symmetrical }"> {{crosswordGridCtrl.symmetrical}}</span></label>
 </div>
 <div class="row">
     <label>Auto-symmterical: </label>
-    <input type="checkbox" ng-model="crosswordGridCtrl.autosym"/>
+    <input type="checkbox" ng-model="crosswordGridCtrl.autosym" />
 </div>
 <div class="row">
     <div class="cw-grid">
         <div ng-repeat="j in crosswordGridCtrl.griddata" class="row">
             <div ng-repeat="i in j" class="cw-sq" ng-right-click="crosswordGridCtrl.Flip(i);" ng-class="{ 'cw-sq-closed': !i.open, 'cw-sq-open': i.open }">
                 <span ng-if="i.open" class="cw-sq-letter">
-                    <input type="text" maxlength="1" ng-model="i.letter" onclick="this.select()" ng-change="crosswordGridCtrl.InputLetter()"/>
+                    <input type="text" maxlength="1" ng-model="i.letter" onclick="this.select()" ng-change="crosswordGridCtrl.InputLetter(i)"/>
                 </span>
                 <span class="cw-sq-number">
                     {{ i.number || "" }}
@@ -24,11 +24,15 @@
     <div class="cw-clues">
         <div class="cw-clues-section">
             <div><strong>Across:</strong></div>
-            <div ng-repeat="acrossClue in crosswordGridCtrl.acrossClues"><strong>{{ acrossClue.number + ". " }}</strong>{{ acrossClue.text }}</div>
+            <div ng-repeat="acrossClue in crosswordGridCtrl.acrossClues">
+                <strong>{{ acrossClue.number + ". " }}</strong> {{ acrossClue.text }} <span class="cw-clue-possibles" ng-hide="acrossClue.possibles === 1" ng-class="{ 'good': acrossClue.possibles > 0, 'problem': acrossClue.possibles <= 0 }"> ({{ acrossClue.possibles }}) </span>
+            </div>
         </div>
         <div class="cw-clues-section">
             <div><strong>Down:</strong></div>
-            <div ng-repeat="downClue in crosswordGridCtrl.downClues"><strong>{{ downClue.number + ". " }}</strong>{{ downClue.text }}</div>
+            <div ng-repeat="downClue in crosswordGridCtrl.downClues">
+                <strong>{{ downClue.number + ". " }}</strong>{{ downClue.text }} <span class="cw-clue-possibles" ng-hide="downClue.possibles === 1" ng-class="{ 'good': downClue.possibles > 0, 'problem': downClue.possibles <= 0 }"> ({{ downClue.possibles }}) </span>
+            </div>
         </div>
     </div>
 </div>

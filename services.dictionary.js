@@ -54,6 +54,8 @@
             console.log("Lookup: " + phrase + " - " + found + " matches.")
 
             console.timeEnd("Lookup: " + phrase);
+            
+            return found;
         }
 
         this.LoadDictionary();

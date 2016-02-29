@@ -81,6 +81,7 @@
                             
                             var wordText = "";
                             var k = 0;
+                            var possibles = 0;
 
                             if (acrossWord) {
                                 wordText = "";
@@ -94,8 +95,10 @@
                                     }
                                     k++;
                                 }
+                                
+                                possibles = DictionaryService.LookUp(wordText.replace(/ /g, ""));
 
-                                this.acrossClues.push({ number: nextNumber, text: wordText });
+                                this.acrossClues.push({ number: nextNumber, text: wordText, possibles: possibles });
                             }
 
                             if (downWord) {
@@ -110,7 +113,10 @@
                                     }
                                     k++;
                                 }
-                                this.downClues.push({ number: nextNumber, text: wordText });
+                                
+                                possibles = DictionaryService.LookUp(wordText.replace(/ /g, ""));
+                                
+                                this.downClues.push({ number: nextNumber, text: wordText, possibles: possibles });
                             }
 
                             nextNumber++;
