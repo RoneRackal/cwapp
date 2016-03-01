@@ -3,6 +3,8 @@
   "version": "1.0.0",
   "scripts": {
     "start": "npm run lite",
+    "test": "npm run lint",
+    "lint": "node_modules/jshint/bin/jshint ./*.js",
     "lite": "lite-server"
   },
   "license": "ISC",
@@ -12,6 +14,7 @@
   },
   "devDependencies": {
     "concurrently": "^1.0.0",
+    "jshint": "^2.9.1",
     "lite-server": "^2.0.1"
   }
 }
