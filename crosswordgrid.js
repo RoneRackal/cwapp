@@ -38,8 +38,8 @@
             //                 this.griddata = CreateMatrix(this.height, this.width, new GridSpot());
             //             }
             
-            this.InputLetter = function () {
-                this.RecalculateGridNumbers();
+            this.InputLetter = function (tile) {
+                this.ConstructClues(tile);
             }
 
             this.Flip = function (item) {
@@ -50,7 +50,138 @@
                 }
 
                 this.RecalculateGridNumbers();
+                this.ConstructClues();
                 this.CheckSymmetry();
+            }
+
+            this.ConstructClues = function (tile) {
+                
+                // Do a full recalculation
+                if (!tile) {
+                    // Reset clues
+                    this.acrossClues.empty();
+                    this.downClues.empty();
+                    
+                    // Find slots that have a number assigned, this means they are part of a word
+                    for (var j = 0; j < this.height; j++) {
+                        for (var i = 0; i < this.width; i++) {
+                            if (this.griddata[j][i].number == 0) {
+                                continue;
+                            }
+                            
+                            // If it has a number, it has the be the start of a word
+                            
+                            var acrossWord = (this.GridSpotIsOpen(i + 1, j) && !this.GridSpotIsOpen(i - 1, j));
+                            var downWord = (this.GridSpotIsOpen(i, j + 1) && !this.GridSpotIsOpen(i, j - 1));
+
+                            var wordText = "";
+                            var k = 0;
+                            var possibles = 0;
+
+                            if (acrossWord) {
+                                while (this.GridSpotIsOpen(i + k, j)) {
+                                    if (!this.griddata[j][i + k].letter || this.griddata[j][i + k].letter == " ") {
+                                        wordText += "_ ";
+                                    }
+                                    else {
+                                        wordText += this.griddata[j][i + k].letter;
+                                    }
+                                    k++;
+                                }
+
+                                possibles = DictionaryService.LookUp(wordText.replace(/ /g, ""));
+
+                                this.acrossClues.push({ number: this.griddata[j][i].number, text: wordText, possibles: possibles });
+                            }
+
+                            if (downWord) {
+                                wordText = "";
+                                k = 0;
+                                while (this.GridSpotIsOpen(i, j + k)) {
+                                    if (!this.griddata[j + k][i].letter || this.griddata[j + k][i].letter == " ") {
+                                        wordText += "_ ";
+                                    }
+                                    else {
+                                        wordText += this.griddata[j + k][i].letter;
+                                    }
+                                    k++;
+                                }
+
+                                possibles = DictionaryService.LookUp(wordText.replace(/ /g, ""));
+
+                                this.downClues.push({ number: this.griddata[j][i].number, text: wordText, possibles: possibles });
+                            }
+                        }
+                    }
+                }
+                else { // Do a partial recalculation
+                    
+                    // Search backwards until we find the start of a word
+                    var n = tile.x;
+                    while (this.GridSpotIsOpen(n - 1, tile.y)) {
+                        n--;
+                    }
+                    if (this.GridSpotIsOpen(n + 1, tile.y) && !this.GridSpotIsOpen(n - 1, tile.y)) { // If there is an across word
+                        var acrossNumber = this.griddata[tile.y][n].number;
+
+                        var wordText = "";
+                        var k = 0;
+                        var possibles = 0;
+
+                        while (this.GridSpotIsOpen(n + k, tile.y)) { // Move forward through word gathering letters
+                            if (!this.griddata[tile.y][n + k].letter || this.griddata[tile.y][n + k].letter == " ") {
+                                wordText += "_ ";
+                            }
+                            else {
+                                wordText += this.griddata[tile.y][n + k].letter;
+                            }
+                            k++;
+                        }
+                        
+                        possibles = DictionaryService.LookUp(wordText.replace(/ /g, ""));
+
+                        for (var k = 0; k < this.acrossClues.length; k++) {
+                            if (this.acrossClues[k].number == acrossNumber) {
+                                this.acrossClues[k].text = wordText;
+                                this.acrossClues[k].possibles = possibles;
+                                break;
+                            }
+                        }
+                    }
+                    
+                    // Search backwards until we find the start of a word
+                    n = tile.y;
+                    while (this.GridSpotIsOpen(tile.x, n - 1)) {
+                        n--;
+                    }
+                    if (this.GridSpotIsOpen(tile.x, n + 1) && !this.GridSpotIsOpen(tile.x, n - 1)) { // If there is an across word
+                        var downNumber = this.griddata[n][tile.x].number;
+
+                        var wordText = "";
+                        var k = 0;
+                        var possibles = 0;
+
+                        while (this.GridSpotIsOpen(tile.x, n + k)) { // Move forward through word gathering letters
+                            if (!this.griddata[n + k][tile.x].letter || this.griddata[n + k][tile.x].letter == " ") {
+                                wordText += "_ ";
+                            }
+                            else {
+                                wordText += this.griddata[n + k][tile.x].letter;
+                            }
+                            k++;
+                        }
+                        
+                        possibles = DictionaryService.LookUp(wordText.replace(/ /g, ""));
+
+                        for (var k = 0; k < this.downClues.length; k++) {
+                            if (this.downClues[k].number == downNumber) {
+                                this.downClues[k].text = wordText;
+                                this.downClues[k].possibles = possibles;
+                                break;
+                            }
+                        }
+                    }
+                }
             }
 
             this.RecalculateGridNumbers = function () {
@@ -78,47 +209,6 @@
                         // Assign number and increment
                         if (acrossWord || downWord) {
                             this.griddata[j][i].number = nextNumber; // Assign number to this square
-                            
-                            var wordText = "";
-                            var k = 0;
-                            var possibles = 0;
-
-                            if (acrossWord) {
-                                wordText = "";
-                                k = 0;
-                                while (this.GridSpotIsOpen(i + k, j)) {
-                                    if (!this.griddata[j][i + k].letter || this.griddata[j][i + k].letter == " ") {
-                                        wordText += "_ ";
-                                    }
-                                    else {
-                                        wordText += this.griddata[j][i + k].letter;
-                                    }
-                                    k++;
-                                }
-                                
-                                possibles = DictionaryService.LookUp(wordText.replace(/ /g, ""));
-
-                                this.acrossClues.push({ number: nextNumber, text: wordText, possibles: possibles });
-                            }
-
-                            if (downWord) {
-                                wordText = "";
-                                k = 0;
-                                while (this.GridSpotIsOpen(i, j + k)) {
-                                    if (!this.griddata[j + k][i].letter || this.griddata[j + k][i].letter == " ") {
-                                        wordText += "_ ";
-                                    }
-                                    else {
-                                        wordText += this.griddata[j + k][i].letter;
-                                    }
-                                    k++;
-                                }
-                                
-                                possibles = DictionaryService.LookUp(wordText.replace(/ /g, ""));
-                                
-                                this.downClues.push({ number: nextNumber, text: wordText, possibles: possibles });
-                            }
-
                             nextNumber++;
                         }
                         else {
