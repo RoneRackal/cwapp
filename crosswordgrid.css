@@ -53,6 +53,10 @@
     outline: none;
 }
 
+.cw-sq-focused {
+    background-color: lightgray;
+}
+
 .cw-sq.cw-sq-open {
     background-color: white;
 }

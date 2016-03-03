@@ -10,10 +10,10 @@
 </div>
 <div class="row">
     <div class="cw-grid">
-        <div ng-repeat="j in crosswordGridCtrl.griddata" class="row">
-            <div ng-repeat="i in j" class="cw-sq" ng-right-click="crosswordGridCtrl.Flip(i);" ng-class="{ 'cw-sq-closed': !i.open, 'cw-sq-open': i.open }">
+        <div ng-repeat="j in crosswordGridCtrl.griddata" class="row cw-grid-row">
+            <div ng-repeat="i in j" class="cw-sq cw-grid-column" ng-right-click="crosswordGridCtrl.Flip(i);" ng-class="{ 'cw-sq-closed': !i.open, 'cw-sq-open': i.open }">
                 <span ng-if="i.open" class="cw-sq-letter">
-                    <input type="text" maxlength="1" ng-model="i.letter" onclick="this.select()" ng-change="crosswordGridCtrl.InputLetter(i)"/>
+                    <input type="text" maxlength="1" ng-model="i.letter" ng-change="crosswordGridCtrl.InputLetter(i)" ng-keydown="crosswordGridCtrl.Keydown($event, i)"/>
                 </span>
                 <span class="cw-sq-number">
                     {{ i.number || "" }}

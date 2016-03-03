@@ -137,7 +137,7 @@
                             }
                             k++;
                         }
-                        
+
                         possibles = DictionaryService.LookUp(wordText.replace(/ /g, ""));
 
                         for (var k = 0; k < this.acrossClues.length; k++) {
@@ -170,7 +170,7 @@
                             }
                             k++;
                         }
-                        
+
                         possibles = DictionaryService.LookUp(wordText.replace(/ /g, ""));
 
                         for (var k = 0; k < this.downClues.length; k++) {
@@ -236,6 +236,34 @@
                 }
 
                 this.symmetrical = sym;
+            }
+
+            this.Keydown = function (e, tile) {
+                //debugger;
+                var newX = -1;
+                var newY = -1;
+                if (e.keyCode === 40) {
+                    newX = tile.x;
+                    newY = tile.y + 1;
+                }
+                if (e.keyCode === 38) {
+                    newX = tile.x;
+                    newY = tile.y - 1;
+                }
+                if (e.keyCode === 37) {
+                    newX = tile.x - 1
+                    newY = tile.y;
+                }
+                if (e.keyCode === 39) {
+                    newX = tile.x + 1;
+                    newY = tile.y;
+                }
+
+                if (newX < 0 || newX >= this.width || newY < 0 || newY >= this.height) {
+                    return;
+                }
+
+                angular.element(".cw-grid .cw-grid-row:nth-child(" + ++newY + ") > .cw-grid-column:nth-child(" + ++newX + ") input").trigger("focus");
             }
             
             // Utilities
