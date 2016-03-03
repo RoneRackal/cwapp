@@ -89,7 +89,7 @@
                                     k++;
                                 }
 
-                                possibles = DictionaryService.LookUp(wordText.replace(/ /g, ""));
+                                possibles = DictionaryService.LookUpCount(wordText.replace(/ /g, ""));
 
                                 this.acrossClues.push({ number: this.griddata[j][i].number, text: wordText, possibles: possibles });
                             }
@@ -107,7 +107,7 @@
                                     k++;
                                 }
 
-                                possibles = DictionaryService.LookUp(wordText.replace(/ /g, ""));
+                                possibles = DictionaryService.LookUpCount(wordText.replace(/ /g, ""));
 
                                 this.downClues.push({ number: this.griddata[j][i].number, text: wordText, possibles: possibles });
                             }
@@ -138,7 +138,7 @@
                             k++;
                         }
 
-                        possibles = DictionaryService.LookUp(wordText.replace(/ /g, ""));
+                        possibles = DictionaryService.LookUpCount(wordText.replace(/ /g, ""));
 
                         for (var k = 0; k < this.acrossClues.length; k++) {
                             if (this.acrossClues[k].number == acrossNumber) {
@@ -171,7 +171,7 @@
                             k++;
                         }
 
-                        possibles = DictionaryService.LookUp(wordText.replace(/ /g, ""));
+                        possibles = DictionaryService.LookUpCount(wordText.replace(/ /g, ""));
 
                         for (var k = 0; k < this.downClues.length; k++) {
                             if (this.downClues[k].number == downNumber) {

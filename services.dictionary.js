@@ -26,10 +26,7 @@
 
         }
 
-        this.LookUp = function (phrase) {
-
-            console.time("Lookup: " + phrase);
-
+        this.ConvertPhraseToRegexString = function (phrase) {
             // Build regex string
             var reg = "^";
             for (var k = 0; k < phrase.length; k++) {
@@ -41,7 +38,15 @@
                 }
             }
             reg += "$";
-            var regex = new RegExp(reg);
+
+            return new RegExp(reg);
+        }
+
+        this.LookUpCount = function (phrase) {
+
+            console.time("LookUpCount: " + phrase);
+
+            var regex = this.ConvertPhraseToRegexString(phrase);
 
             // Test against dictionary
             var found = 0;
@@ -51,11 +56,31 @@
                 if (regex.test(this.dictionary[l][i]))
                     found++;
             }
-            console.log("Lookup: " + phrase + " - " + found + " matches.")
 
-            console.timeEnd("Lookup: " + phrase);
-            
+            console.timeEnd("LookUpCount: " + phrase);
+
             return found;
+        }
+
+        this.LookUpList = function (phrase) {
+
+            console.time("LookUpList: " + phrase);
+
+            var regex = this.ConvertPhraseToRegex(phrase);
+
+            // Test against dictionary
+            var results = [];
+            var l = phrase.length;
+
+            for (var i = 0; i < this.dictionary[l].length; i++) {
+                if (regex.test(this.dictionary[l][i])) {
+                    results.push(this.dictionary[l][i]);
+                }
+            }
+
+            console.timeEnd("LookUpList: " + phrase);
+
+            return results;
         }
 
         this.LoadDictionary();
