@@ -24,15 +24,20 @@
     <div class="cw-clues">
         <div class="cw-clues-section">
             <div><strong>Across:</strong></div>
-            <div ng-repeat="acrossClue in crosswordGridCtrl.acrossClues">
-                <strong>{{ acrossClue.number + ". " }}</strong> {{ acrossClue.text }} <span class="cw-clue-possibles" ng-hide="acrossClue.possibles === 1" ng-class="{ 'good': acrossClue.possibles > 0, 'problem': acrossClue.possibles <= 0 }"> ({{ acrossClue.possibles }}) </span>
+            <div ng-repeat="clue in crosswordGridCtrl.acrossClues">
+                <strong>{{ clue.number + ". " }}</strong> {{ clue.text }} <span class="cw-clue-possibles" ng-class="{ 'good': clue.possibles > 0, 'problem': clue.possibles <= 0 }"
+                ng-click="crosswordGridCtrl.CreatePossibleList(clue.text)" ng-show="clue.text.contains('_')"> ({{ clue.possibles }}) </span>
             </div>
         </div>
         <div class="cw-clues-section">
             <div><strong>Down:</strong></div>
-            <div ng-repeat="downClue in crosswordGridCtrl.downClues">
-                <strong>{{ downClue.number + ". " }}</strong>{{ downClue.text }} <span class="cw-clue-possibles" ng-hide="downClue.possibles === 1" ng-class="{ 'good': downClue.possibles > 0, 'problem': downClue.possibles <= 0 }"> ({{ downClue.possibles }}) </span>
+            <div ng-repeat="clue in crosswordGridCtrl.downClues">
+                <strong>{{ clue.number + ". " }}</strong>{{ clue.text }} <span class="cw-clue-possibles" ng-class="{ 'good': clue.possibles > 0, 'problem': clue.possibles <= 0 }"
+                ng-click="crosswordGridCtrl.CreatePossibleList(clue.text)" ng-show="clue.text.contains('_')"> ({{ clue.possibles }}) </span>
             </div>
         </div>
     </div>
+</div>
+<div>
+    <div ng-repeat="i in crosswordGridCtrl.possibleList">{{i}}</div>
 </div>

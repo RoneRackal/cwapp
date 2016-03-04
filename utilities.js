@@ -36,3 +36,7 @@ Array.prototype.empty = function ()
         this.pop();
     }
 }
+
+String.prototype.contains = function(it) {
+    return this.indexOf(it) != -1;
+};

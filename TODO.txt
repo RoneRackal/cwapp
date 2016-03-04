@@ -1,7 +1,5 @@
-- Import 350k word dictionary
-- Ability to click Possibles and have it show a list of possibles
+
 - Refactor CrosswordGridController.ConstructClues to extract similar functionality
-- Add better user controls so they can navigate the grid using arrow keys
 - Add auto-focus on next box in a word after typing
 - Ability to fill out clues in the side-bar and have it reflect on the grid
 - Pretty up the options up the top

@@ -26,7 +26,7 @@
 
         }
 
-        this.ConvertPhraseToRegexString = function (phrase) {
+        this.ConvertPhraseToRegex = function (phrase) {
             // Build regex string
             var reg = "^";
             for (var k = 0; k < phrase.length; k++) {
@@ -46,7 +46,7 @@
 
             console.time("LookUpCount: " + phrase);
 
-            var regex = this.ConvertPhraseToRegexString(phrase);
+            var regex = this.ConvertPhraseToRegex(phrase);
 
             // Test against dictionary
             var found = 0;

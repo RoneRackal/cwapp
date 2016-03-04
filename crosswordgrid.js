@@ -19,6 +19,7 @@
             this.autosym = true;
             this.acrossClues = [];
             this.downClues = [];
+            this.possibleList = [];
 
             this.CreateGrid = function (height, width) {
                 this.griddata = CreateMatrix(this.height, this.width, new GridSpot());
@@ -40,6 +41,10 @@
             
             this.InputLetter = function (tile) {
                 this.ConstructClues(tile);
+            }
+            
+            this.CreatePossibleList = function (text) {
+                this.possibleList = DictionaryService.LookUpList(text.replace(/ /g, ""));
             }
 
             this.Flip = function (item) {
